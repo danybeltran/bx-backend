@@ -1,0 +1,39 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Order {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    collectAddress  String
+    personName      String
+    personLastname  String
+    personEmail     String
+    phoneNumber     String
+    deliveryAddress DeliveryAddress
+    date            DateTime
+    bulks           Bulk[]
+}
+
+type DeliveryAddress {
+    state            String
+    city             String
+    fullAddress      String
+    addressReference String?
+    indications      String?
+}
+
+type Bulk {
+    // Assign some id to each bulk
+    id      String @default(uuid())
+    length  Float
+    width   Float
+    depth   Float
+    weight  Float
+    content String
+}
